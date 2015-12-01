@@ -1,0 +1,24 @@
+#!/bin/sh
+# $Id: mk.tests,v 1.4 2014-01-17 18:03:29-08 - - $
+
+export PATH=$PATH:/afs/cats.ucsc.edu/courses/cmps012b-wm/bin
+PROG=jroff
+
+function runtest {
+   test=$1
+   shift
+   echo $0: Running $PROG "$@"
+   $PROG "$@" >$test.out 2>$test.err
+   echo status = $? >$test.status
+   ls -goa test.$test.*
+}
+
+runtest test0.hello.rf     in0.hello.rf
+runtest test1.simple.rf    in1.simple.rf
+runtest test2.paragraph.rf in2.paragraph.rf
+runtest test4.longer.rf    in4.longer.rf
+runtest test5.badcmds.rf   in5.badcmds.rf
+runtest test6.jroff.rf     in6.jroff.rf
+runtest test7.all          *.rf
+runtest test8.badfiles     /dev/null foo bar baz
+

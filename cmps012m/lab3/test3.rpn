@@ -1,0 +1,10 @@
+# $Id: test3.rpn,v 1.1 2013-09-25 13:09:38-07 - - $
+# tests for simple operators
+# Note that # starts a comment to end of line.
+34 .3 88 ;
++ + ; @ # should print one sum
+8 3 * 4 7 * + ; @ # should print one sum
+3 10 - ; @ # should print a negative number
+4 9 / ; @ #fraction
+7 0 / ; @ # infinity
+1e1000000 ; @ # infinity

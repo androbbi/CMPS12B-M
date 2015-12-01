@@ -1,0 +1,22 @@
+Script started on Wed Feb 19 21:07:34 2014
+[?1034hbash-1$ mk list1.c
+CSOURCE=list1.c EXECBIN=list1
++ cid + list1.c
++ checksource list1.c
++ gcc -g -O0 -Wall -Wextra -std=gnu99 list1.c -o list1 -lm
+list1.c: In function 'main':
+list1.c:15:7: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+       node *node = malloc (sizeof (struct node));
+       ^
+list1.c:15:20: warning: incompatible implicit declaration of built-in function 'malloc' [enabled by default]
+       node *node = malloc (sizeof (struct node));
+                    ^
+list1.c:12:15: warning: unused parameter 'argc' [-Wunused-parameter]
+ int main (int argc, char **argv) {
+               ^
++ set +x
+============================================================
+bash-2$ exit
+exit
+
+Script done on Wed Feb 19 21:08:21 2014

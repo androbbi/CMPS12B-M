@@ -1,0 +1,27 @@
+#!/bin/sh
+# $Id: mk.tests,v 1.4 2013-04-30 18:35:00-07 - - $
+
+export PATH=$PATH:/afs/cats.ucsc.edu/courses/cmps012b-wm/bin
+export LC_COLLATE=C
+
+function runtest {
+   test=$1
+   shift
+   echo $0: Running $test "$@"
+   "$@" 1>test.$test.out 2>test.$test.err
+   echo status = $? >test.$test.status
+   ls -goa test.$test.*
+}
+
+grind='valgrind --leak-check=full'
+
+runtest nsort.good  nsort        <data.nsort.good.in
+runtest nsort.bad   nsort        <data.nsort.bad.in
+runtest nsort.debug nsort -d     <data.nsort.good.in
+runtest nsort.grind $grind nsort <data.nsort.good.in
+
+runtest lsort.good  lsort        <data.lsort.good.in
+runtest lsort.bad   lsort        <data.lsort.bad.in
+runtest lsort.debug lsort -d     <data.lsort.good.in
+runtest lsort.grind $grind lsort <data.lsort.good.in
+

@@ -1,0 +1,8 @@
+lrwxr-xr-x. 1 androbbi users 72 Jan 17 16:39 lab2 -> /afs/cats.ucsc.edu/users/k/androbbi/12b/Labs-cmps012m/lab2u-unix-shells/
+  File: `lab2' -> `/afs/cats.ucsc.edu/users/k/androbbi/12b/Labs-cmps012m/lab2u-unix-shells/'
+  Size: 72        	Blocks: 2          IO Block: 4096   symbolic link
+Device: 16h/22d	Inode: 1077544298  Links: 1
+Access: (0755/lrwxr-xr-x)  Uid: (32012/androbbi)   Gid: (  101/   users)
+Access: 2014-01-17 16:39:52.000000000 -0800
+Modify: 2014-01-17 16:39:52.000000001 -0800
+Change: 2014-01-17 16:39:52.000000000 -0800

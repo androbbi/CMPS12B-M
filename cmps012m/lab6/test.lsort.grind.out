@@ -1,0 +1,12 @@
+You have reached the End of file
+!@#$%^&*()_+| and special characters are first
+$Id: data.lsort.good.in,v 1.1 2012-10-30 17:09:23-07 - - $
+(i.e., not in alphabetic order)
+IN LEXICOGRAPHIC ORDER
+SO THAT UPPER LINES COME BEFORE LOWER LINES
+[except for brackets]
+of some data
+or just run sort
+see an ASCII table
+strings should sort
+this is a test

@@ -1,0 +1,31 @@
+.ll 20
+Note that some paragraphs are very narrow and look funny.
+It is even possible to make them very very narrow.
+.sp
+.ll 10
+Now we can't get much more than one word per line.
+.sp 5
+.ll 60
+There should be five blank lines above this line.
+And this paragraph should be about 60 characters wide.
+If we want to make an indented quotation,
+we need to use both the .ll and the .in commands.
+.sp
+.ll 50
+.in 10
+This is a paragraph that is indented at both ends.
+This is a paragraph that is indented at both ends.
+This is a paragraph that is indented at both ends.
+This is a paragraph that is indented at both ends.
+This is a paragraph that is indented at both ends.
+This is a paragraph that is indented at both ends.
+.sp
+.ll 60
+.in 0
+This paragraph is not indented and has a line width of 60 characters.
+This paragraph is not indented and has a line width of 60 characters.
+This paragraph is not indented and has a line width of 60 characters.
+This paragraph is not indented and has a line width of 60 characters.
+This paragraph is not indented and has a line width of 60 characters.
+
+$Id: in2.paragraph.rf,v 1.1 2011-04-08 17:21:44-07 - - $

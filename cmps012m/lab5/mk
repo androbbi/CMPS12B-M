@@ -1,0 +1,23 @@
+#!/bin/sh
+# $Id: mk,v 1.5 2013-02-08 18:01:20-08 - - $
+#
+# This script takes the names of C source files and compiles them
+# into executable images.  Each source must be a complete program.
+#
+export PATH=$PATH:/afs/cats.ucsc.edu/courses/cmps012b-wm/bin
+for CSOURCE in $*
+do
+   EXECBIN=${CSOURCE%.c}
+   if [ "$CSOURCE" == "$EXECBIN" ]
+   then
+      echo $0: $CSOURCE: is not a C source file
+   else
+      echo CSOURCE=$CSOURCE EXECBIN=$EXECBIN
+      set -x
+      cid + $CSOURCE
+      checksource $CSOURCE
+      gcc -g -O0 -Wall -Wextra -std=gnu99 $CSOURCE -o $EXECBIN -lm
+      set +x
+      echo ============================================================
+   fi
+done

@@ -1,0 +1,624 @@
+head	1.30;
+access;
+symbols;
+locks;
+comment	@ * @;
+
+
+1.30
+date	2014.03.06.07.29.28;	author -;	state -;
+branches;
+next	1.29;
+
+1.29
+date	2014.03.06.07.27.11;	author -;	state -;
+branches;
+next	1.28;
+
+1.28
+date	2014.03.06.07.23.33;	author -;	state -;
+branches;
+next	1.27;
+
+1.27
+date	2014.03.06.07.23.17;	author -;	state -;
+branches;
+next	1.26;
+
+1.26
+date	2014.03.06.07.22.20;	author -;	state -;
+branches;
+next	1.25;
+
+1.25
+date	2014.03.06.07.21.38;	author -;	state -;
+branches;
+next	1.24;
+
+1.24
+date	2014.03.06.07.21.13;	author -;	state -;
+branches;
+next	1.23;
+
+1.23
+date	2014.03.06.07.20.28;	author -;	state -;
+branches;
+next	1.22;
+
+1.22
+date	2014.03.06.07.19.28;	author -;	state -;
+branches;
+next	1.21;
+
+1.21
+date	2014.03.06.07.19.20;	author -;	state -;
+branches;
+next	1.20;
+
+1.20
+date	2014.03.06.07.18.50;	author -;	state -;
+branches;
+next	1.19;
+
+1.19
+date	2014.03.06.07.17.52;	author -;	state -;
+branches;
+next	1.18;
+
+1.18
+date	2014.03.06.07.16.08;	author -;	state -;
+branches;
+next	1.17;
+
+1.17
+date	2014.03.06.07.09.11;	author -;	state -;
+branches;
+next	1.16;
+
+1.16
+date	2014.03.06.07.08.40;	author -;	state -;
+branches;
+next	1.15;
+
+1.15
+date	2014.03.06.07.07.47;	author -;	state -;
+branches;
+next	1.14;
+
+1.14
+date	2014.03.06.07.05.55;	author -;	state -;
+branches;
+next	1.13;
+
+1.13
+date	2014.03.06.07.04.27;	author -;	state -;
+branches;
+next	1.12;
+
+1.12
+date	2014.03.06.07.03.36;	author -;	state -;
+branches;
+next	1.11;
+
+1.11
+date	2014.03.06.07.03.26;	author -;	state -;
+branches;
+next	1.10;
+
+1.10
+date	2014.03.06.07.03.06;	author -;	state -;
+branches;
+next	1.9;
+
+1.9
+date	2014.03.06.07.02.43;	author -;	state -;
+branches;
+next	1.8;
+
+1.8
+date	2014.03.06.07.01.39;	author -;	state -;
+branches;
+next	1.7;
+
+1.7
+date	2014.03.06.06.59.55;	author -;	state -;
+branches;
+next	1.6;
+
+1.6
+date	2014.03.06.06.59.26;	author -;	state -;
+branches;
+next	1.5;
+
+1.5
+date	2014.03.06.06.58.38;	author -;	state -;
+branches;
+next	1.4;
+
+1.4
+date	2014.03.06.06.57.50;	author -;	state -;
+branches;
+next	1.3;
+
+1.3
+date	2014.03.06.04.08.17;	author -;	state -;
+branches;
+next	1.2;
+
+1.2
+date	2014.03.06.04.08.03;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2014.03.06.01.30.25;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.30
+log
+@-
+@
+text
+@//Antony Robbins androbbi@@ucsc.edu
+//Brandon Gomez brlgomez@@ucsc.edu
+#include <errno.h>
+#include <limits.h>
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <utime.h>
+#include <sys/types.h>
+#include<sys/stat.h>
+#include <unistd.h>
+
+int EXIT_STATUS = EXIT_SUCCESS;
+
+void l8stat(char *filename) {
+   struct stat sb;
+   int time180 = 180 * 24 * 60 * 60;
+   char link[1024];
+   int info = lstat(filename, &sb);
+   if(info != 0){
+	  printf("Stat failure\n");
+	  fflush(NULL);
+	  fprintf(stderr,"%s: %s\n",
+	           filename, strerror(errno));
+      fflush(NULL);
+	  EXIT_STATUS = EXIT_FAILURE;
+   } else {
+      printf("%06o %9d ", (int)sb.st_mode, (int)sb.st_size);
+	  char buff[256];
+	  char *timeformat = NULL;
+	  time_t current;
+	  time(&current);
+	  struct tm *tm = localtime(&sb.st_mtime);
+	  if(current - sb.st_mtime > time180){
+	     timeformat = "%b %e %Y";
+	  } else {
+	     timeformat = "%b %e %R";
+	  }
+	  strftime (buff, sizeof(buff),timeformat, tm);
+      printf("%12s %s\n", buff, filename);
+	  
+	  int link_status = readlink(filename, link, sizeof(link));
+      if(link_status != -1) {
+         printf(" -> %s", link);
+      }
+
+   }
+}
+
+int main (int argc, char **argv) {
+   if(argc == 1) {
+      l8stat(".");
+   }
+   else {
+      for(int i = 1; i < argc; i++){
+        l8stat(argv[i]);
+      }
+   }
+   return EXIT_STATUS;
+}@
+
+
+1.29
+log
+@-
+@
+text
+@d46 1
+a46 1
+         printf(" --> %s", link);
+@
+
+
+1.28
+log
+@-
+@
+text
+@a30 4
+      int link_status = readlink(filename, link, sizeof(link));
+      if(link_status != -1) {
+         printf(" --> %s", link);
+      }
+d43 5
+@
+
+
+1.27
+log
+@-
+@
+text
+@d46 1
+a46 1
+      printf("%14s %s\n", buff, filename);
+@
+
+
+1.26
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %7d ", (int)sb.st_mode, (int)sb.st_size);
+@
+
+
+1.25
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %10d ", (int)sb.st_mode, (int)sb.st_size);
+d46 1
+a46 1
+      printf("%16s %s\n", buff, filename);
+@
+
+
+1.24
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %90d ", (int)sb.st_mode, (int)sb.st_size);
+@
+
+
+1.23
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %10d ", (int)sb.st_mode, (int)sb.st_size);
+d46 1
+a46 1
+      printf("%17s %s\n", buff, filename);
+@
+
+
+1.22
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %4d ", (int)sb.st_mode, (int)sb.st_size);
+@
+
+
+1.21
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %d ", (int)sb.st_mode, (int)sb.st_size);
+@
+
+
+1.20
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %06d ", (int)sb.st_mode, (int)sb.st_size);
+@
+
+
+1.19
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %d ", (int)sb.st_mode, (int)sb.st_size);
+@
+
+
+1.18
+log
+@-
+@
+text
+@d46 1
+a46 1
+      printf("%15s %s\n", buff, filename);
+@
+
+
+1.17
+log
+@-
+@
+text
+@d46 1
+a46 1
+      printf("%16s %s\n", buff, filename);
+@
+
+
+1.16
+log
+@-
+@
+text
+@d36 1
+@
+
+
+1.15
+log
+@-
+@
+text
+@d38 1
+a38 1
+	  struct tm *tm = localtime(&buff);
+@
+
+
+1.14
+log
+@-
+@
+text
+@d38 1
+a38 2
+	  struct tm *time = localtime(current);
+	  strftime(sb, sizeof(sb), , time);
+@
+
+
+1.13
+log
+@-
+@
+text
+@d33 1
+a33 1
+         printf(" --> %s", link_status);
+@
+
+
+1.12
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o t%d ", sb.st_mode, sb.st_size);
+@
+
+
+1.11
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %81d ", sb.st_mode, sb.st_size);
+@
+
+
+1.10
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("%06o %d ", sb.st_mode, sb.st_size);
+@
+
+
+1.9
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("06o %d ", sb.st_mode, sb.st_size);
+@
+
+
+1.8
+log
+@-
+@
+text
+@d30 1
+a30 1
+      printf("06o t%d ", sb.st_mode, sb.st_size);
+@
+
+
+1.7
+log
+@-
+@
+text
+@a14 1
+char *execname = NULL;
+d25 2
+a26 2
+	  fprintf(stderr, "%s: %s\n", execname,
+	                  sterror(errno));
+a51 1
+   execname = basename (argv[0]);
+@
+
+
+1.6
+log
+@-
+@
+text
+@d27 1
+a27 1
+	                  , sterror(errno));
+@
+
+
+1.5
+log
+@-
+@
+text
+@d26 2
+a27 2
+	  fprintf(stderr, "%s: %s: %s\n", execname,
+	          filename, sterror(errno));
+@
+
+
+1.4
+log
+@-
+@
+text
+@d23 1
+a23 1
+   if(stat != 0){
+@
+
+
+1.3
+log
+@-
+@
+text
+@d1 51
+a51 38
+#include <errno.h>
+#include <limits.h>
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <utime.h>
+#include <sys/types.h>
+#include<sys/stat.h>
+#include <unistd.h>
+
+/*
+int lstat(const char *path, struct stat *buf)
+Path points to file and fills in buf 
+Then print buf
+if the path is a symbolic link,
+then the link isalso 
+"stat-ed" not the file.
+Might need to use stat and lstat to print file
+info and symbolic link info
+The information is in a struct stat,
+and you will use the fields st_mode,
+st_size, and st_mtime. The mode is printed as
+6 octal digits, and the size as 9
+
+But we have to use readLink to return info
+about the symbolic link
+So maybe we use stat and not lstat
+
+ssize_t readlink(const char *path, char *buf, size_t buf-size);
+time_t time(time_t *t);
+*/
+int EXIT_STATUS = EXIT_SUCCESS;
+struct stat sb;
+
+void l8stat(char *filename);
+
+d53 1
+a53 1
+
+d59 1
+a59 1
+	     l8stat(argv[i]);
+d62 1
+a62 14
+   /*
+	setlocale (LC_NUMERIC, "en_US");
+	time_t now = time (NULL);
+	//const time_t DAYS = 24 * 60 * 60;
+	
+	char *timeformat = "%b %d %H:%M";
+	char buffer[256];
+	struct tm *tm = localtime (&now);
+	strftime (buffer, sizeof buffer, timeformat, tm);
+	
+	printf ("%15d %s\n", tm->tm_year + 1900, buffer);
+
+	*/
+	return EXIT_STATUS;
+@
+
+
+1.2
+log
+@-
+@
+text
+@d47 1
+@
+
+
+1.1
+log
+@-
+@
+text
+@d9 3
+d13 36
+a48 1
+int main (void) {
+d60 2
+a61 2
+	
+	return EXIT_SUCCESS;
+@

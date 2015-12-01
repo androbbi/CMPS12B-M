@@ -1,0 +1,11 @@
+#!/bin/sh 
+# $Id: mk.tests,v 1.1 2013-02-15 19:29:55-08 - - $
+./mydc <test1.data >test1.out 2>test1.err
+echo status $? >test1.status
+./mydc <test2.data >test2.out 2>test2.err
+echo status $? >test2.status
+./mydc <test3.data >test3.out 2>test3.err
+echo status $? >test3.status
+./mydc <test4.data >test4.out 2>test4.err
+echo status $? >test4.status
+valgrind --leak-check=full ./mydc <testv.data >testv.out 2>testv.err

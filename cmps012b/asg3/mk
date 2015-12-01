@@ -1,0 +1,11 @@
+#!/bin/sh -x
+# $Id: mk,v 1.2 2014-01-16 17:46:25-08 - - $
+JAVA=*.java
+SRC="$JAVA *.perl $0"
+cid + $SRC
+javac $JAVA
+echo Main-class: testtrees >Manifest
+jar cvfm testtrees Manifest *.class
+rm Manifest
+chmod +x testtrees
+mkpspdf Listing.ps $SRC

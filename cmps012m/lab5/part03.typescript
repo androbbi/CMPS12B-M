@@ -1,0 +1,52 @@
+Script started on Sun Feb  9 18:26:48 2014
+[?1034hbash-1$ gdb uninit
+[?1034hGNU gdb (GDB) Red Hat Enterprise Linux (7.6-34.el6)
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /afs/cats.ucsc.edu/users/k/androbbi/private/cmps012m/lab5/uninit...done.
+(gdb) break main
+Breakpoint 1 at 0x40052f: file uninit.c, line 8.
+(gdb) run
+Starting program: /afs/cats.ucsc.edu/users/k/androbbi/private/cmps012m/lab5/uninit 
+warning: the debug information found in "/usr/lib/debug//lib64/ld-2.12.so.debug" does not match "/lib64/ld-linux-x86-64.so.2" (CRC mismatch).
+
+warning: the debug information found in "/usr/lib/debug/lib64/ld-2.12.so.debug" does not match "/lib64/ld-linux-x86-64.so.2" (CRC mismatch).
+
+warning: the debug information found in "/usr/lib/debug//lib64/libm-2.12.so.debug" does not match "/lib64/libm.so.6" (CRC mismatch).
+
+warning: the debug information found in "/usr/lib/debug/lib64/libm-2.12.so.debug" does not match "/lib64/libm.so.6" (CRC mismatch).
+
+warning: the debug information found in "/usr/lib/debug//lib64/libc-2.12.so.debug" does not match "/lib64/libc.so.6" (CRC mismatch).
+
+warning: the debug information found in "/usr/lib/debug/lib64/libc-2.12.so.debug" does not match "/lib64/libc.so.6" (CRC mismatch).
+
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffdf78) at uninit.c:8
+8	   printf ("%d\n", foo);
+Missing separate debuginfos, use: debuginfo-install glibc-2.12-1.107.el6_4.5.x86_64
+(gdb) print foo
+$1 = 0
+(gdb) next
+0
+10	   printf ("%d\n", *pointer);
+(gdb) print pointer
+$2 = (int *) 0x7fffffffdf70
+(gdb) next
+1
+11	}
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 22252] will be killed.
+
+Quit anyway? (y or n) yes
+bash-2$ exit
+exit
+
+Script done on Sun Feb  9 18:27:58 2014

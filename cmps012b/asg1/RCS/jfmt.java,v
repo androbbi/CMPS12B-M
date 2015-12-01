@@ -1,0 +1,226 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2014.01.15.06.40.27;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.09.04.29.34;	author androbbi;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@-
+@
+text
+@// $Id: jfmt.java,v 1.2 2013-09-24 14:38:16-07 - - $
+//
+// Antony Robbins androbbi@@ucsc.edu
+// Brandon Gomez brlgomez@@ucsc.edu
+// Starter code for the jfmt utility.  This program is similar
+// to the example code jcat.java, which iterates over all of its
+// input files, except that this program shows how to use
+// String.split to extract non-whitespace sequences of characters
+// from each line.
+//
+
+import java.io.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+import static java.lang.System.*;
+
+class jfmt {
+   // Static variables keeping the general status of the program.
+   public static final String JAR_NAME = get_jarname();
+   public static final int EXIT_SUCCESS = 0;
+   public static final int EXIT_FAILURE = 1;
+   public static int exit_status = EXIT_SUCCESS;
+
+   // A basename is the final component of a pathname.
+   // If a java program is run from a jar, the classpath is the
+   // pathname of the jar.
+   static String get_jarname() {
+      String jarpath = getProperty ("java.class.path");
+      int lastslash = jarpath.lastIndexOf ('/');
+      if (lastslash < 0) return jarpath;
+      return jarpath.substring (lastslash + 1);
+   }
+
+   // Formats a single file.
+   static void format (Scanner infile, int lineLength) {
+      // Read each line from the opened file, one after the other.
+      // Stop the loop at end of file.
+      // Create a LinkedList of Strings.
+      List<String> words = new LinkedList<String>();
+      while(infile.hasNextLine()) {
+   
+       String line = infile.nextLine();
+         //out.printf ("line %3d: [%s]%n", linenr, line);
+
+
+         // Split the line into words around white space and iterate
+         // over the words.
+         for (String word: line.split ("\\s+")) {
+            
+            // Skip an empty word if such is found.
+            if (word.length() == 0){
+			   continue;
+			 }
+            //out.printf ("...[%s]%n", word);
+            // Append the word to the end of the linked list.
+         if(word != null)
+               words.add (word);
+
+         }
+		 
+         //out.printf ("list:");
+         // Use iterator syntax to print out all of the words.
+         //for (String word: words) out.printf (" %s", word);
+         //out.printf ("%n");
+       
+      }
+	  print_paragraph(words, lineLength);
+	  out.println();
+   }
+   
+   static void print_paragraph(List<String> words, int lineLength){
+      int count = 0;
+      int length = lineLength;
+	  out.println();
+      for(String word: words){
+         count += word.length();
+         if(count >= length){
+            out.println();
+			out.printf(word);
+            count = word.length();
+         }
+         else{
+            if(count != word.length()){
+               out.printf(" ");
+               count++;
+            }
+         out.printf(word);
+         }
+      }
+      words.clear();
+   }
+   // Main function scans arguments and opens/closes files.
+   public static void main (String[] args) {
+      int lineLength = 65;
+      if (args.length == 0) {
+         // There are no filenames given on the command line.
+         out.printf ("FILE: -%n");
+         format (new Scanner (in), lineLength);
+      }else {
+        if(args[0].matches("-\\d+")){
+            String arg = args[0];
+            //out.printf ("args[%d] = \"%s\": ", argi, arg);
+            try {
+               lineLength = Integer.parseInt(arg.substring(1));
+               //out.printf ("is int %d%n", lineLength);
+            }catch (NumberFormatException error) {
+                out.printf ("NumberFormatException: %s%n",
+                           error.getMessage());
+            }
+            
+        }
+         // Iterate over each filename given on the command line.
+         for (int argix = 1; argix < args.length; ++argix) {
+            String filename = args[argix];
+            if (filename.equals ("-")) {
+               // Treat a filename of "-" to mean System.in.
+               out.printf ("FILE: -%n");
+               format (new Scanner (in), lineLength);
+            }else {
+               // Open the file and read it, or error out.
+               try {
+                  Scanner infile = new Scanner (new File (filename));
+                  out.printf ("FILE: %s%n", filename);
+                  format (infile, lineLength);
+                  infile.close();
+               }catch (IOException error) {
+                  exit_status = EXIT_FAILURE;
+                  err.printf ("%s: %s%n", JAR_NAME,
+                              error.getMessage());
+               }
+            }
+         }
+      }
+      exit (exit_status);
+   }
+
+}
+@
+
+
+1.1
+log
+@-
+@
+text
+@d3 2
+d13 1
+a35 1
+
+d37 1
+a37 1
+   static void format (Scanner infile) {
+d40 6
+a45 3
+      for (int linenr = 1; infile.hasNextLine(); ++linenr) {
+         String line = infile.nextLine();
+         out.printf ("line %3d: [%s]%n", linenr, line);
+a46 2
+         // Create a LinkedList of Strings.
+         List<String> words = new LinkedList<String>();
+d51 1
+a51 1
+
+d53 4
+a56 2
+            if (word.length() == 0) continue;
+            out.printf ("...[%s]%n", word);
+d58 2
+a59 1
+            words.add (word);
+d62 2
+a63 2
+         out.printf ("list:");
+
+d65 3
+a67 2
+         for (String word: words) out.printf (" %s", word);
+         out.printf ("%n");
+d69 24
+a93 2
+
+
+d96 1
+d100 1
+a100 1
+         format (new Scanner (in));
+d102 12
+d115 1
+a115 1
+         for (int argix = 0; argix < args.length; ++argix) {
+d120 1
+a120 1
+               format (new Scanner (in));
+d126 1
+a126 1
+                  format (infile);
+@

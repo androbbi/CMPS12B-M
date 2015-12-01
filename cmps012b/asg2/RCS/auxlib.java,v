@@ -1,0 +1,356 @@
+head	1.7;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.7
+date	2014.02.04.23.19.48;	author -;	state -;
+branches;
+next	1.6;
+
+1.6
+date	2014.02.04.23.18.05;	author -;	state -;
+branches;
+next	1.5;
+
+1.5
+date	2014.02.04.08.26.35;	author -;	state -;
+branches;
+next	1.4;
+
+1.4
+date	2014.02.04.08.23.54;	author -;	state -;
+branches;
+next	1.3;
+
+1.3
+date	2014.02.04.05.48.35;	author -;	state -;
+branches;
+next	1.2;
+
+1.2
+date	2014.02.04.05.45.51;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.28.22.58.30;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@-
+@
+text
+@
+// $Id: auxlib.java,v 1.4 2014-01-17 17:43:33-08 - - $
+//
+// NAME
+//    auxlib - Auxiliary miscellanea for handling system interaction.
+//
+// DESCRIPTION
+//    Auxlib has system access functions that can be used by other
+//    classes to print appropriate messages and keep track of
+//    the program name and exit codes.  It assumes it is being run
+//    from a jar and gets the name of the program from the classpath.
+//    Can not be instantiated.
+//
+
+import static java.lang.System.*;
+import static java.lang.Integer.*;
+//import linkedqueue.node;
+
+public final class auxlib{
+   public static final String PROGNAME =
+                 basename (getProperty ("java.class.path"));
+   public static final int EXIT_SUCCESS = 0;
+   public static final int EXIT_FAILURE = 1;
+   public static int exitvalue = EXIT_SUCCESS;
+
+   //
+   // private ctor - prevents class from new instantiation.
+   //
+   private auxlib () {
+      throw new UnsupportedOperationException ();
+   }
+
+   //
+   // basename - strips the dirname and returns only the basename.
+   //            See:  man -s 3c basename
+   //
+   public static String basename (String pathname) {
+      if (pathname == null || pathname.length () == 0) return ".";
+      String[] paths = pathname.split ("/");
+      for (int index = paths.length - 1; index >= 0; --index) {
+         if (paths[index].length () > 0) return paths[index];
+      }
+      return "/";
+   }
+
+   //
+   // Functions:
+   //    whine   - prints a message with a given exit code.
+   //    warn    - prints a stderr message and sets the exit code.
+   //    die     - calls warn then exits.
+   // Combinations of arguments:
+   //    objname - name of the object to be printed (optional)
+   //    message - message to be printed after the objname,
+   //              either a Throwable or a String.
+   //
+   public static void whine (int exitval, Object... args) {
+      exitvalue = exitval;
+      err.printf ("%s", PROGNAME);
+      for (Object argi : args) err.printf (": %s", argi);
+      err.printf ("%n");
+   }
+   public static void warn (Object... args) {
+      whine (EXIT_FAILURE, args);
+   }
+   public static void die (Object... args) {
+      warn (args);
+      exit ();
+   }
+
+   //
+   // usage_exit - prints a usage message and exits.
+   //
+   public static void usage_exit (String optsargs) {
+      exitvalue = EXIT_FAILURE;
+      err.printf ("Usage: %s %s%n", PROGNAME, optsargs);
+      exit ();
+   }
+
+   //
+   // exit - calls exit with the appropriate code.
+   //        This function should be called instead of returning
+   //        from the main function.
+   //
+   public static void exit () {
+      System.exit (exitvalue);
+   }
+
+   //
+   // identity - returns the default Object.toString value
+   //            Useful for debugging.
+   //
+   public static String identity (Object object) {
+      return object == null ? "(null)"
+           : object.getClass().getName() + "@@"
+           + toHexString (identityHashCode (object));
+   }
+
+   //
+   // caller - return information about the caller of the
+   //          function that called this function in the form
+   //          filename[linenumber] functionname
+   //
+   public static String caller() {
+      StackTraceElement caller
+           = Thread.currentThread().getStackTrace()[2];
+      return String.format ("%s[%d] %s", caller.getFileName(),
+             caller.getLineNumber(), caller.getMethodName());
+   }
+   
+   public static void printparagraph(linkedqueue<String> queue,
+            int lineLength){
+      StringBuffer sBuff = new StringBuffer();
+      String prev = queue.get();
+      if(jroff.format == true){
+         sBuff.append(commands.command_po(null, commands.pageOffSet));
+      }
+      jroff.format = false;
+      while(queue.empty() != true){
+         jroff.count += queue.get().length();
+         if(jroff.count > lineLength){
+            sBuff.append("\n");
+            sBuff.append(commands.command_po(null,
+                     commands.pageOffSet));
+            jroff.count = queue.get().length();   
+         }
+         if(jroff.count > queue.get().length()){
+            int last = prev.length() - 1;
+            if(prev.charAt(last) == '.' && last != -1){
+               sBuff.append("  ");
+               jroff.count += 2;
+            }
+            else{
+               sBuff.append(" ");
+               jroff.count++;
+            }
+         }
+         prev = queue.get();
+         sBuff.append(queue.get());
+         queue.remove();
+     }
+      out.print(sBuff);
+      sBuff.setLength(0);
+   }
+}
+@
+
+
+1.6
+log
+@-
+@
+text
+@d127 1
+a127 1
+            int last = prev.length(); // -1
+@
+
+
+1.5
+log
+@-
+@
+text
+@d1 2
+a2 1
+// $Id: auxlib.java,v 1.1 2014-01-28 14:58:30-08 - - $
+d17 1
+d39 1
+a39 1
+      String[] paths = pathname.split("/");
+d60 1
+a60 1
+      err.printf ("\n");
+d75 1
+a75 1
+      err.printf ("Usage: %s %s\n", PROGNAME, optsargs);
+d110 15
+a124 8
+   public static void printparagraph (linkedqueue<String> queue, int linelength) {
+      StringBuffer qString = new StringBuffer();
+	  //int spaces = 1;
+      boolean addedTwo = false;
+	  int count = 0;
+	  if(commands.blankLine == true) {
+	     for(int i = 0; i < commands.endLines; i++){
+		    out.printf("\n");
+d126 9
+a134 20
+		 commands.command_po(null, queue, commands.pageOffset);
+      }
+      while(queue.empty() != true){		  
+	     for(int i = 0; i < queue.get().length(); i++){
+	        if(queue.get().charAt(i) == '.' || queue.get().charAt(i) == '!'
+		             || queue.get().charAt(i) == '?' || queue.get().charAt(i) == ':'
+					       || queue.get().charAt(i) == ';'){
+               count = count + queue.get().length() + 2;
+			   if(count > linelength - commands.indent) {
+		          qString.append("\n");
+				  out.print(qString);
+				  qString.setLength(0);
+				  for(int j = 0; j < commands.pageOffset + commands.indent; j++) {
+				     out.print(" ");
+                  }
+				  count = queue.get().length() + 2;
+               }
+			   qString.append(queue.get() + "  ");
+			   addedTwo = true;
+			   break;
+d137 2
+a138 14
+		 if (addedTwo == false){
+		    count = count + queue.get().length() + 1;
+			if(count > linelength - commands.indent) {
+			   qString.append("\n");
+			   out.print(qString);
+			   qString.setLength(0);
+			      for(int j = 0; j < commands.pageOffset + commands.indent; j++){
+			         out.print(" ");
+			      }
+               count = queue.get().length() + 1;
+			}
+            qString.append(queue.get() + " ");
+		 }
+		 addedTwo = false;
+d140 3
+a142 3
+      }
+	  out.print(qString);
+	  qString.setLength(0);
+a143 1
+
+@
+
+
+1.4
+log
+@-
+@
+text
+@d36 1
+a36 1
+      if (pathname == null || pathname.length () == 0) return "p";
+@
+
+
+1.3
+log
+@-
+@
+text
+@d36 1
+a36 1
+      if (pathname == null || pathname.length () == 0) return ".";
+d110 1
+d119 1
+a119 1
+      while(queue.empty() != true){	  
+d122 2
+a123 1
+		             || queue.get().charAt(i) == '?'){
+@
+
+
+1.2
+log
+@-
+@
+text
+@d58 1
+a58 1
+      err.printf ("%n");
+d73 1
+a73 1
+      err.printf ("Usage: %s %s%n", PROGNAME, optsargs);
+d114 1
+a114 1
+		    out.printf("%n");
+d124 1
+a124 1
+		          qString.append("%n");
+d140 1
+a140 1
+			   qString.append("%n");
+@
+
+
+1.1
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: auxlib.java,v 1.4 2014-01-17 17:43:33-08 - - $
+d108 1
+a108 1
+   public static void printparagraph (linkedqueue<String> queue) {
+d111 7
+d122 11
+a132 1
+		       qString.append(queue.get() + "  ");
+d138 10
+d154 1
+@

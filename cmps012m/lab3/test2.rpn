@@ -1,0 +1,5 @@
+# $Id: test2.rpn,v 1.1 2013-09-25 13:09:38-07 - - $
+# test for generation of errors
+3 + ; # stack underflow error
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 #stack overflow
+error bad operator

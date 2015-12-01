@@ -1,0 +1,42 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.23.23.21.19;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@-
+@
+text
+@#!/bin/sh
+# $Id: mk,v 1.5 2013-10-11 19:17:55-07 - - $
+cid $0 jrpn.java crpn.c
+mkc jrpn.java
+for test in ../.score/test*.rpn
+do
+   basename=${test##.*/}
+   prefix=j${basename%.*}
+   ./jrpn <$test >$prefix.output 2>&1
+   echo STATUS = $? >$prefix.status
+   morecat $test $prefix.output $prefix.status >$prefix.lis
+   rm $prefix.output $prefix.status
+done
+mkc crpn.c
+./crpn <../.score/test1.rpn >ctest1.output 2>&1
+echo STATUS = $? >ctest1.status
+morecat ../.score/test1.rpn ctest1.output ctest1.status >ctest1.lis
+rm ctest1.output ctest1.status
+mkpspdf -s12 Listing.ps jrpn.java* j*.lis crpn.c* c*.lis
+@

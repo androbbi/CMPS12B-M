@@ -1,0 +1,6 @@
+#!/bin/sh
+# $Id: mk.build,v 1.2 2013-02-22 12:52:17-08 - - $
+export PATH=$PATH:/afs/cats.ucsc.edu/courses/cmps012b-wm/bin
+partnercheck 2>&1 | tee partnercheck.log
+checksource Makefile *.[hc] 2>&1 | tee check.log
+gmake 2>&1 | tee gmake.log

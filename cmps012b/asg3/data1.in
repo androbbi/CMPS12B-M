@@ -1,0 +1,12 @@
+This is a test of the cross reference program.
+Do hyphenated-words work properly?
+Or abbreviations like U.C.S.C.?
+foo bar baz
+foo bar baz
+foo bar baz
+foo bar baz
+foo bar baz
+foo bar baz
+the the the the the the the the the the the the the the the the the the
+the the the the the the the the
+$Id: data1.in,v 1.1 2011-01-28 20:00:25-08 - - $

@@ -1,0 +1,17 @@
+#!/bin/bash
+# $Id: mk.data,v 1.1 2014-02-04 15:25:56-08 - - $
+
+PROG=proff.perl
+DIR=../.score
+cid + $0 $PROG
+
+for file in $DIR/*.rf
+do
+   base=$(basename $file)
+   proff.perl $file >$base.out 2>$base.err
+done
+
+mkpspdf -c files-input.ps $DIR/*.rf
+mkpspdf -c files-output.ps *.out
+mkpspdf files-scripts.ps $DIR/mk.* $0 proff.perl
+

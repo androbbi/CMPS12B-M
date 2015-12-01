@@ -1,0 +1,5 @@
+#!/bin/sh
+# $Id: testexit1,v 1.1 2010-12-16 18:39:34-08 - - $
+./mkexit1
+./exit1 1>exit.out 2>exit.err
+echo exit status is $? >exit.status

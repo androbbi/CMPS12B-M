@@ -1,0 +1,4 @@
+#!/bin/bash
+pfmt.perl $1>$1.p.output
+jfmt $1>$1.j.output
+diff $1.p.output $1.j.output

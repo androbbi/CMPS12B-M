@@ -1,0 +1,30 @@
+This is a very simple example of some text that should be formatted.
+As the lines are fetched form the input,
+the output lines are adjusted so that each line is approximately
+the same length.
+
+Note that a blank line produces a paragraph break.
+So we can easily use this as a primitiver formatter just like
+fmt(1),
+even if we don't want to do anything complicated.
+
+The present assignment does not require that any line justification
+be given.
+Neither need any fancy PostScript formatting output be done.
+Note that there is one space between words except when a word
+ends a sentence.
+A sentence ends when the word ends with one of the following
+punctuation marks:
+?!;:.
+
+Many text formatters also allow for both right justification
+rather than ragged right typesetting and also for hyphenation.
+We do not require that here.
+Also not that while sentence-ending punctuation works,
+abbreviations ending with periods are treated as ending sentences,
+which is not quite right.
+And if we're not careful in formatting things,
+very-long-words-which-appear-in-the-wrong place can cause
+funny-looking line-breaking.
+
+$Id: in1.simple.rf,v 1.1 2011-04-08 17:21:44-07 - - $

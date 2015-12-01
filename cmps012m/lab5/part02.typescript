@@ -1,0 +1,52 @@
+Script started on Wed Feb 19 21:42:46 2014
+[?1034hbash-1$ gdb uninit
+[?1034hGNU gdb (GDB) Red Hat Enterprise Linux (7.6-34.el6)
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /afs/cats.ucsc.edu/users/k/androbbi/private/cmps012m/lab5/uninit...done.
+(gdb) run
+Starting program: /afs/cats.ucsc.edu/users/k/androbbi/private/cmps012m/lab5/uninit 
+warning: Skipping deprecated .gdb_index section in /usr/lib/debug/lib64/ld-2.12.so.debug.
+Do "set use-deprecated-index-sections on" before the file is read
+to use the section anyway.
+pointer=(nil)
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000400549 in main (argc=1, argv=0x7fffffffdf78) at uninit.c:9
+9	   printf ("*pointer=%d\n", *pointer);
+(gdb) where
+#0  0x0000000000400549 in main (argc=1, argv=0x7fffffffdf78) at uninit.c:9
+(gdb) list
+4	#include <stdlib.h>
+5	
+6	int main (int argc, char **argv) {
+7	   int *pointer;
+8	   printf ("pointer=%p\n", pointer);
+9	   printf ("*pointer=%d\n", *pointer);
+10	   int foo;
+11	   printf ("foo=%d\n", foo);
+12	}
+(gdb) print foo
+$1 = 32767
+(gdb) print pointer
+$2 = (int *) 0x0
+(gdb) print *pointer
+Cannot access memory at address 0x0
+(gdb) print argv- [0]
+$3 = 0x7fffffffe271 "/afs/cats.ucsc.edu/users/k/androbbi/private/cmps012m/lab5/uninit"
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 330] will be killed.
+
+Quit anyway? (y or n) yes
+bash-2$ exit
+exit
+
+Script done on Wed Feb 19 21:43:34 2014

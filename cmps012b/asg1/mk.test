@@ -1,0 +1,39 @@
+#!/bin/sh
+# $Id: mk.test,v 1.2 2013-09-24 14:32:33-07 - - $
+PATH=$PATH:/afs/cats.ucsc.edu/courses/cmps012b-wm/bin
+export PATH
+PROG=jfmt
+
+function runtest {
+   test=$1
+   shift
+   echo $0: Running $PROG "$@"
+   $PROG "$@" >test.$test.out 2>test.$test.err
+   echo status = $? >test.$test.status
+   ls -goa test.$test.*
+}
+
+# Test suite (a) - simple stdin
+runtest test-a1 <input1.dat
+runtest test-a2 <input2.dat
+runtest test-a3 <input3.dat
+
+# Test suite (b) - simple args[0]
+runtest test-b1 input1.dat
+runtest test-b2 input2.dat
+runtest test-b3 input3.dat
+
+# Test suite (c) - multiple input
+runtest test-c input*.dat
+
+# Test suite (d) - multiple files and stdin
+runtest test-d input1.dat - input3.dat <input2.dat
+
+# Test suite (e) - testing line lengths
+runtest test-e80 -80 input*.dat
+runtest test-e10 -10 input*.dat
+
+# Test suite (f) - error tests
+runtest test-f1 -foobar input1.dat
+runtest test-f2 /no/such/file input1.dat
+runtest test-f3 foo bar baz qux

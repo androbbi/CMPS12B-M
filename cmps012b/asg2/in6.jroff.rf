@@ -1,0 +1,266 @@
+.po 10
+.pl 50
+.\" ===============================================================
+.in 0
+NAME
+.sp
+.in 4
+jroff - format documents for display on line printer
+.sp
+.\" ===============================================================
+.in 0
+SYNOPSIS
+.sp
+.in 4
+jroff [filename...]
+.sp
+.\" ===============================================================
+.in 0
+DESCRIPTION
+.sp
+.in 4
+`jroff' formats text according to control lines embedded in the text
+of the given input files.
+Control lines begin with a period (.) in column 1 and all other
+lines are text lines to be formatted.
+Paragraphs are delimited by empty lines or control lines.
+.sp
+.\" ===============================================================
+.in 0
+OPTIONS
+.sp
+.in 4
+None.
+.sp
+.\" ===============================================================
+.in 0
+OPERANDS
+.sp
+.in 4
+All operands are filenames.
+Each file is read in turn as input to the formatter.
+If a filename is specified as a minus sign (-),
+the standard input is read at that point.
+If no filenames are given, the standard input is read.
+The formatted document is written to the standard output.
+.sp
+.\" ===============================================================
+.in 0
+EXIT STATUS
+.sp
+.in 4
+0
+.in 8
+No errors were encountered.
+.in 4
+1
+.in 8
+One or more files were not found or invalid commands were found.
+Error messages were written to the standard error.
+.sp
+.\" ===============================================================
+.in 0
+SEE ALSO
+.sp
+.in 4
+fmt(1),
+nroff(1),
+groff(1),
+latex(1),
+tex(1).
+.sp
+.\" ===============================================================
+.in 0
+INPUT TEXT
+.sp
+.in 4
+Input lines are of three types:
+empty lines,
+which cause a paragraph to be terminated and are equivalent to
+the `.sp' command;
+text lines, which are added to the current paragraph,
+and commands, which being with a period (.) in column 1.
+White space is ignored, except as separators.
+Whenever a word of output is printed,
+it is followed by one space unless it is at the end of a sentence.
+A word is at the end of a sentence if its last character is one
+of the characters period (.), question (?), bang (!), colon(:),
+or semi-colon (;).
+.sp
+.\" ===============================================================
+.in 0
+COMMANDS
+.sp
+.in 4
+The following commands are recognized.
+Whenever an operand of `N' is specified on a command,
+the operand must be numeric, and if missing,
+the default value is used.
+`C' indicates a single character operand.
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.\" anything
+:cc
+.in 8
+`jroff' comments are ignored and are useful for private
+documentation purposes.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.bp
+:cc
+.in 8
+Begin page, causing a break.
+Write a form feed (^L) character immediately before printing
+the page header for the next page.
+When the next paragraph is dumped,
+The page title will be printed when the next line after this
+is printed.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.br
+:cc
+.in 8
+Break.
+The paragraph is dumped and a new paragraph is begun.
+There is no empty line between paragraphs.
+Same as `.sp 0'.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.cc C
+:cc
+.in 8
+Sets the control character to C.
+The control character is that which appears in position 0 of
+the input line to signal a command.
+Default:
+`.'.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.in N
+:cc
+.in 8
+Set the indentation to N characters.
+This is the number of spaces printed at the beginning of each
+line in addition to the page offset.
+Also causes a break (.br).
+Default:
+0.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.ll N
+:cc
+.in 8
+Set output line length to N characters.
+The indentation is included in this, but not the page offset.
+Default:
+65.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.mt N
+:cc
+.in 8
+Specifies the margin at the top of the page in lines.
+The page number is vertically centered in this margin.
+N/2 empty lines are printed,
+then the page number at the right end,
+then N/2-1 empty lines.
+Default:
+6.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+:cc
+.in 8
+A three part page header may be specified for the left,
+middle, and right side of the page.
+If a percent (%) appears anywhere in the title,
+it is replaced by a page number.
+The left part is left justified within the output line,
+the right part is right justified,
+and the mid part is centered one the entire output line.
+Default:
+'''%'.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.pl N
+:cc
+.in 8
+Set the page length to N lines.
+Whever this many lines have been output, a page eject occurs,
+and the page header is printed immediately before printing
+the next line of text.
+Default:
+60.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.po N
+:cc
+.in 8
+Page offset is N characters.
+This is the number of space characters printed at the beginning
+of every output line.
+No characters are printed if the line is empty.
+Default:
+10.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.cc :
+.sp N
+:cc
+.in 8
+End a paragraph and print N blank lines.
+Each blank input line is the same as `.sp 1'.
+If N is more than the number of output lines left on the current
+page, behaves exactly like `.bp'.
+Default:
+1.
+.in 4
+.sp
+.\" ---------------------------------------------------------------
+.sp
+.\" ===============================================================
+.in 0
+SEE ALSO
+.sp
+.in 4
+nroff(1),
+groff(1),
+latex(1),
+tex(1).
+.sp
+.\" ===============================================================
+.in 0
+BUGS
+.sp
+.in 4
+Very few commands have been implemented,
+the most serious being the lack of a macro preprocessor in order
+to make typing in the markup language less tedious.
+.sp
+.\" ===============================================================
+.in 0
+RCSID
+.sp
+.in 4
+$Id: in6.jroff.rf,v 1.1 2011-04-08 17:21:44-07 - - $
+.in 0
+.sp

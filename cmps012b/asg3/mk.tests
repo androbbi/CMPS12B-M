@@ -1,0 +1,10 @@
+#!/bin/sh -x
+# $Id: mk.tests,v 1.1 2011-01-28 20:00:25-08 - - $
+PROG=./jxref
+denied=/afs/cats.ucsc.edu/class/cmps012b-wm.f07/.denied
+runprogram.perl -0data1.in -otest1 $PROG
+runprogram.perl            -otest2 $PROG  data1.in
+runprogram.perl            -otest3 $PROG  data*.in /dev/null
+runprogram.perl            -otest6 $PROG -d data1.in
+runprogram.perl            -otest7 $PROG -f data2.in
+runprogram.perl            -otest8 $PROG /no/such/file $denied

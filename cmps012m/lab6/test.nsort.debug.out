@@ -1,0 +1,18 @@
+You have reached the End of file
+&head= 0x7fffb70043a8
+head= 0x151c190
+0x151c190 -> struct node {item= -inf, link= 0x151c130}
+0x151c130 -> struct node {item= -8.2e+45, link= 0x151c0f0}
+0x151c0f0 -> struct node {item= -1e+38, link= 0x151c110}
+0x151c110 -> struct node {item= -8.2e-43, link= 0x151c170}
+0x151c170 -> struct node {item= 0, link= 0x151c1b0}
+0x151c1b0 -> struct node {item= -0, link= 0x151c0b0}
+0x151c0b0 -> struct node {item= 0.301029995663981, link= 0x151c0d0}
+0x151c0d0 -> struct node {item= 1.4142135623731, link= 0x151c090}
+0x151c090 -> struct node {item= 2.71828182845905, link= 0x151c070}
+0x151c070 -> struct node {item= 3.14159265358979, link= 0x151c010}
+0x151c010 -> struct node {item= 6.8, link= 0x151c030}
+0x151c030 -> struct node {item= 7.3, link= 0x151c050}
+0x151c050 -> struct node {item= 6.02e+23, link= 0x151c150}
+0x151c150 -> struct node {item= inf, link= (nil)}
+NULL= (nil)

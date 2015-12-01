@@ -1,0 +1,10 @@
+.foobar
+.ba dcomm
+.an d
+.this is a bad command
+Thisisaverylonglinewhichcannotbebrokenandyouwillgetanerrormessageabout``can'tbreakline''.
+The message should be something like
+ZZ
+.sp needs to have a numeric operand.
+.sp 3 needs one operand.
+$Id: in5.badcmds.rf,v 1.1 2011-04-08 17:21:44-07 - - $

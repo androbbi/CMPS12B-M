@@ -1,0 +1,7 @@
+#!/bin/sh
+# $Id: mk.tests,v 1.1 2013-09-25 13:09:38-07 - - $
+ulimit -f 10
+for test in test*rpn
+do
+   ./crpn <$test 1>$test.output 2>&1
+done

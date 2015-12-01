@@ -1,0 +1,16 @@
+#!/bin/sh
+# $Id: mk.tests,v 1.4 2013-04-23 17:50:50-07 - - $
+run(){
+   echo running $*
+   test=$1
+   shift
+   $* 1>$test.out 2>$test.err
+}
+prog=cmatch
+run test1 $prog -l repet test2.in
+run test2 $prog repet test2.in
+run test3 $prog the test*in
+run test4 $prog -n the test*in
+run test5 $prog -i muse test*in
+run test6 $prog foo bar baz quz
+

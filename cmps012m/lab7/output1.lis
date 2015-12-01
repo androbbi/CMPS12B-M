@@ -1,0 +1,9 @@
+return NULL
+item =
+	"$Id: test1.data,v 1.1 2012-02-14 20:32:33-08 - - $"
+item =
+	"Test data 1 line 1."
+item =
+	"Test data 1 line 2."
+item =
+	"Test data 1 line 3."

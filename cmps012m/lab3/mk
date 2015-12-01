@@ -1,0 +1,4 @@
+#!/bin/sh
+# $Id: mk,v 1.1 2014-01-23 15:21:19-08 - - $
+# Antony Robbins androbbi
+gcc -g -O0 -Wall -Wextra -std=gnu99 crpn.c -o crpn

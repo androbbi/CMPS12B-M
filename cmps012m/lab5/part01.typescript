@@ -1,0 +1,72 @@
+Script started on Sun Feb  9 18:19:50 2014
+[?1034hbash-1$ mk uninit.c
+CSOURCE=uninit.c EXECBIN=uninit
++ cid + uninit.c
++ checksource uninit.c
++ gcc -g -O0 -Wall -Wextra -std=gnu99 uninit.c -o uninit -lm
+uninit.c: In function 'main':
+uninit.c:6:15: warning: unused parameter 'argc' [-Wunused-parameter]
+ int main (int argc, char **argv) {
+               ^
+uninit.c:6:28: warning: unused parameter 'argv' [-Wunused-parameter]
+ int main (int argc, char **argv) {
+                            ^
+uninit.c:8:11: warning: 'foo' is used uninitialized in this function [-Wuninitialized]
+    printf ("%d\n", foo);
+           ^
+uninit.c:10:11: warning: 'pointer' is used uninitialized in this function [-Wuninitialized]
+    printf ("%d\n", *pointer);
+           ^
++ set +x
+============================================================
+bash-2$ valgrind uninit
+==21412== Memcheck, a memory error detector
+==21412== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==21412== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==21412== Command: uninit
+==21412== 
+==21412== Use of uninitialised value of size 8
+==21412==    at 0x3753643D5B: _itoa_word (in /lib64/libc-2.12.so)
+==21412==    by 0x3753646912: vfprintf (in /lib64/libc-2.12.so)
+==21412==    by 0x375364F449: printf (in /lib64/libc-2.12.so)
+==21412==    by 0x400542: main (uninit.c:8)
+==21412== 
+==21412== Conditional jump or move depends on uninitialised value(s)
+==21412==    at 0x3753643D65: _itoa_word (in /lib64/libc-2.12.so)
+==21412==    by 0x3753646912: vfprintf (in /lib64/libc-2.12.so)
+==21412==    by 0x375364F449: printf (in /lib64/libc-2.12.so)
+==21412==    by 0x400542: main (uninit.c:8)
+==21412== 
+==21412== Conditional jump or move depends on uninitialised value(s)
+==21412==    at 0x37536453A3: vfprintf (in /lib64/libc-2.12.so)
+==21412==    by 0x375364F449: printf (in /lib64/libc-2.12.so)
+==21412==    by 0x400542: main (uninit.c:8)
+==21412== 
+==21412== Conditional jump or move depends on uninitialised value(s)
+==21412==    at 0x37536453C1: vfprintf (in /lib64/libc-2.12.so)
+==21412==    by 0x375364F449: printf (in /lib64/libc-2.12.so)
+==21412==    by 0x400542: main (uninit.c:8)
+==21412== 
+0
+==21412== Use of uninitialised value of size 8
+==21412==    at 0x400547: main (uninit.c:10)
+==21412== 
+1
+==21412== 
+==21412== HEAP SUMMARY:
+==21412==     in use at exit: 0 bytes in 0 blocks
+==21412==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==21412== 
+==21412== All heap blocks were freed -- no leaks are possible
+==21412== 
+==21412== For counts of detected and suppressed errors, rerun with: -v
+==21412== Use --track-origins=yes to see where uninitialised values come from
+==21412== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 6 from 6)
+bash-3$ echo $?
+0
+bash-4$ pstatus 139
+pstatus: 0x008B TERMINATED 11: Segmentation fault (core dumped)
+bash-5$ exit
+exit
+
+Script done on Sun Feb  9 18:21:52 2014

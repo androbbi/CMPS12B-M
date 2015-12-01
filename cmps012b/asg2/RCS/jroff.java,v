@@ -1,0 +1,829 @@
+head	1.34;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.34
+date	2014.02.04.23.05.38;	author -;	state -;
+branches;
+next	1.33;
+
+1.33
+date	2014.02.04.22.54.02;	author -;	state -;
+branches;
+next	1.32;
+
+1.32
+date	2014.02.04.22.47.25;	author -;	state -;
+branches;
+next	1.31;
+
+1.31
+date	2014.02.04.08.21.16;	author -;	state -;
+branches;
+next	1.30;
+
+1.30
+date	2014.02.04.08.17.20;	author -;	state -;
+branches;
+next	1.29;
+
+1.29
+date	2014.02.04.08.12.05;	author -;	state -;
+branches;
+next	1.28;
+
+1.28
+date	2014.02.04.08.09.35;	author -;	state -;
+branches;
+next	1.27;
+
+1.27
+date	2014.02.04.08.00.52;	author -;	state -;
+branches;
+next	1.26;
+
+1.26
+date	2014.02.04.07.58.48;	author -;	state -;
+branches;
+next	1.25;
+
+1.25
+date	2014.02.04.07.56.41;	author -;	state -;
+branches;
+next	1.24;
+
+1.24
+date	2014.02.04.07.55.31;	author -;	state -;
+branches;
+next	1.23;
+
+1.23
+date	2014.02.04.05.43.18;	author -;	state -;
+branches;
+next	1.22;
+
+1.22
+date	2014.02.04.05.42.48;	author -;	state -;
+branches;
+next	1.21;
+
+1.21
+date	2014.02.04.05.36.59;	author -;	state -;
+branches;
+next	1.20;
+
+1.20
+date	2014.02.04.05.31.11;	author -;	state -;
+branches;
+next	1.19;
+
+1.19
+date	2014.02.04.05.27.25;	author -;	state -;
+branches;
+next	1.18;
+
+1.18
+date	2014.02.04.05.27.03;	author -;	state -;
+branches;
+next	1.17;
+
+1.17
+date	2014.02.04.05.26.15;	author -;	state -;
+branches;
+next	1.16;
+
+1.16
+date	2014.01.28.22.49.10;	author -;	state -;
+branches;
+next	1.15;
+
+1.15
+date	2014.01.28.22.48.19;	author -;	state -;
+branches;
+next	1.14;
+
+1.14
+date	2014.01.28.22.47.48;	author -;	state -;
+branches;
+next	1.13;
+
+1.13
+date	2014.01.28.22.46.13;	author -;	state -;
+branches;
+next	1.12;
+
+1.12
+date	2014.01.28.22.45.51;	author -;	state -;
+branches;
+next	1.11;
+
+1.11
+date	2014.01.22.05.38.22;	author -;	state -;
+branches;
+next	1.10;
+
+1.10
+date	2014.01.22.05.37.35;	author -;	state -;
+branches;
+next	1.9;
+
+1.9
+date	2014.01.22.05.36.58;	author -;	state -;
+branches;
+next	1.8;
+
+1.8
+date	2014.01.22.05.36.40;	author -;	state -;
+branches;
+next	1.7;
+
+1.7
+date	2014.01.22.05.33.47;	author -;	state -;
+branches;
+next	1.6;
+
+1.6
+date	2014.01.22.05.23.55;	author -;	state -;
+branches;
+next	1.5;
+
+1.5
+date	2014.01.22.05.23.29;	author -;	state -;
+branches;
+next	1.4;
+
+1.4
+date	2014.01.22.05.16.21;	author -;	state -;
+branches;
+next	1.3;
+
+1.3
+date	2014.01.21.23.36.35;	author -;	state -;
+branches;
+next	1.2;
+
+1.2
+date	2014.01.21.23.36.07;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.21.23.35.25;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.34
+log
+@-
+@
+text
+@// $Id: jroff.java,v 1.33 2014-02-04 14:54:02-08 - - $
+
+import java.io.*;
+import java.util.Scanner;
+import static java.lang.System.*;
+
+class jroff{
+   static final String STDIN_NAME = "-";
+   static int count = 0;
+   static boolean format = true;
+   static void scanfile (String filename, Scanner infile) {
+      linkedqueue <String> queue = new linkedqueue <String> ();
+      int num = 0;
+      int i = 1;
+      //out.printf ("STUB: filename = %s%n", filename);
+      while(infile.hasNextLine()) {
+         String line = infile.nextLine();
+         //out.printf ("STUB: %s: %4d: [%s]%n", filename, linenr, line);
+         String[] words = line.split ("\\s+");
+         if (words.length > 0 && words[0].startsWith (".")) {
+            if(words.length > 1 && (words[1]).matches(".*\\d.*")){
+               num = Integer.parseInt(words[1]);
+               i = 2;
+            }
+            try {
+               for (int j = i; j < words.length; j++){ 
+                  String word = words[j];
+                  queue.insert(word);                  
+               }
+               format = true;
+               commands.do_command (words, queue, num);
+            }catch (IllegalArgumentException error) {
+               auxlib.warn (filename, words[0],
+                     "invalid command");
+            }
+         }else {
+            for (String word: words) 
+               queue.insert(word);
+            auxlib.printparagraph(queue, 65);
+            out.printf ("%n");
+         }
+      }
+   }
+
+   public static void main (String[] args) {
+
+      if (args.length == 0) {
+         scanfile (STDIN_NAME, new Scanner (in));
+      }else {
+         for (String filename : args) {
+            if (filename.equals (STDIN_NAME)) {
+               scanfile (STDIN_NAME, new Scanner (in));
+            }else {
+               try {
+                  Scanner scan = new Scanner (new File (filename));
+                  scanfile (filename, scan);
+                  scan.close();
+               }catch (IOException error) {
+                  auxlib.warn (error.getMessage());
+               }
+            }
+         }
+      }
+   }
+
+}
+@
+
+
+1.33
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: jroff.java,v 1.32 2014-02-04 14:47:25-08 - - $
+d66 1
+a66 1
+}@
+
+
+1.32
+log
+@-
+@
+text
+@d1 65
+a65 65
+// $Id: jroff.java,v 1.3 2014-01-09 17:06:42-08 - - $
+
+import java.io.*;
+import java.util.Scanner;
+import static java.lang.System.*;
+
+class jroff{
+	static final String STDIN_NAME = "-";
+	static int count = 0;
+	static boolean format = true;
+	static void scanfile (String filename, Scanner infile) {
+		linkedqueue <String> queue = new linkedqueue <String> ();
+		int num = 0;
+		int i = 1;
+		//out.printf ("STUB: filename = %s%n", filename);
+		while(infile.hasNextLine()) {
+			String line = infile.nextLine();
+			//out.printf ("STUB: %s: %4d: [%s]%n", filename, linenr, line);
+			String[] words = line.split ("\\s+");
+			if (words.length > 0 && words[0].startsWith (".")) {
+				if(words.length > 1 && (words[1]).matches(".*\\d.*")){
+					num = Integer.parseInt(words[1]);
+					i = 2;
+				}
+				try {
+					for (int j = i; j < words.length; j++){ 
+						String word = words[j];
+						queue.insert(word);						
+					}
+					format = true;
+					commands.do_command (words, queue, num);
+				}catch (IllegalArgumentException error) {
+					auxlib.warn (filename, words[0],
+							"invalid command");
+				}
+			}else {
+				for (String word: words) 
+					queue.insert(word);
+				auxlib.printparagraph(queue, 65);
+				out.printf ("%n");
+			}
+		}
+	}
+
+	public static void main (String[] args) {
+
+		if (args.length == 0) {
+			scanfile (STDIN_NAME, new Scanner (in));
+		}else {
+			for (String filename : args) {
+				if (filename.equals (STDIN_NAME)) {
+					scanfile (STDIN_NAME, new Scanner (in));
+				}else {
+					try {
+						Scanner scan = new Scanner (new File (filename));
+						scanfile (filename, scan);
+						scan.close();
+					}catch (IOException error) {
+						auxlib.warn (error.getMessage());
+					}
+				}
+			}
+		}
+	}
+
+@
+
+
+1.31
+log
+@-
+@
+text
+@d1 66
+a66 67
+// $Id: jroff.java,v 1.3 2014-01-09 17:06:42-08 - - $
+
+import java.io.*;
+import java.util.Scanner;
+import static java.lang.System.*;
+
+class jroff{
+   static final String STDIN_NAME = "-";
+
+   static void scanfile (String filename, Scanner infile){
+      linkedqueue <String> words = new linkedqueue <String> ();
+      while(infile.hasNextLine()) {
+	     int num = 0;
+		 String incon = commands.control;
+         String line = infile.nextLine();
+         String[] read = line.split ("\\s+");
+		 if (read.length > 0 && read[0].startsWith(incon)) {
+		    if((read[1]).matches(".*\\d.*")) {
+			   num = Integer.parseInt(read[1]);
+			   for(int i = 2; i < read.length; i++) {
+			      String word = read[i];
+				  words.insert(word);
+               }
+            }
+			else {
+			   for(int i = 1; i < read.length; i++) {
+			      String word = read[i];
+				  words.insert(word);
+			   }
+		    }	  
+            try {
+               commands.do_command (read, words, num, incon);
+            }catch (IllegalArgumentException error) {
+               auxlib.warn (filename, read[0],
+                            "invalid command");
+            }
+         }else {
+            for (String word: read){
+               words.insert(word);
+            }
+            //auxlib.printparagraph(words);
+         }
+      }
+   }
+     
+
+
+   public static void main (String[] args) {
+      if (args.length == 0) {
+         scanfile (STDIN_NAME, new Scanner (in));
+      }else {
+         for (String filename : args) {
+            if (filename.equals (STDIN_NAME)) {
+               scanfile (STDIN_NAME, new Scanner (in));
+            }else {
+               try {
+                  Scanner scan = new Scanner (new File (filename));
+                  scanfile (filename, scan);
+                  scan.close();
+               }catch (IOException error) {
+                  auxlib.warn (error.getMessage());
+               }
+            }
+         }
+      }
+   }
+}
+@
+
+
+1.30
+log
+@-
+@
+text
+@d17 1
+a17 1
+		 if (read.length > 0 && read[0].startsWith("incon")) {
+@
+
+
+1.29
+log
+@-
+@
+text
+@d17 1
+a17 1
+		 if (read.length > 0 && read[0].startsWith(incon)) {
+@
+
+
+1.28
+log
+@-
+@
+text
+@d14 1
+a14 1
+		 char incon = commands.control;
+d17 1
+a17 1
+		 if (read.length > 0 && read[0].charAt(0).equals(incon)) {
+@
+
+
+1.27
+log
+@-
+@
+text
+@d17 1
+a17 1
+		 if (read.length > 0 && read[0].charAt(0) == incon) {
+@
+
+
+1.26
+log
+@-
+@
+text
+@d32 1
+a32 1
+               commands.do_command (read, words, num, control);
+@
+
+
+1.25
+log
+@-
+@
+text
+@d17 1
+a17 1
+		 if (read.length > 0 && read[0].startsWith (incon)) {
+@
+
+
+1.24
+log
+@-
+@
+text
+@d18 1
+a18 1
+		    if((read[1]).matches(".*\\d.*" || )) {
+@
+
+
+1.23
+log
+@-
+@
+text
+@d14 1
+d17 2
+a18 2
+		 if (read.length > 0 && read[0].startsWith (".")) {
+		    if((read[1]).matches(".*\\d.*")) {
+d32 1
+a32 1
+               commands.do_command (read, words, num);
+@
+
+
+1.22
+log
+@-
+@
+text
+@d31 1
+a31 1
+               commands.do_command (read, queue, num);
+@
+
+
+1.21
+log
+@-
+@
+text
+@d31 1
+a31 1
+               commands.do_command (read);
+@
+
+
+1.20
+log
+@-
+@
+text
+@d18 1
+a18 1
+			   num = Integer.parseInt(words[1]);
+d49 1
+a49 1
+         scanfile (STDIN_NAME, new Scanner (in), words);
+d53 1
+a53 1
+               scanfile (STDIN_NAME, new Scanner (in), words);
+d57 1
+a57 1
+                  scanfile (filename, scan, words);
+@
+
+
+1.19
+log
+@-
+@
+text
+@d10 1
+a10 1
+   static void scanfile (String filename, Scanner infile, linkedqueue<String> words) {
+@
+
+
+1.18
+log
+@-
+@
+text
+@d19 1
+a19 1
+			   for(int i = 2; i < read.length' i++) {
+@
+
+
+1.17
+log
+@-
+@
+text
+@d17 1
+a17 1
+		    if((read[[1]).matches(".*\\d.*")) {
+@
+
+
+1.16
+log
+@-
+@
+text
+@d11 1
+a11 1
+      out.printf ("STUB: filename = %s%n", filename);
+d13 1
+d15 7
+a21 10
+         if(line.length() == 0){
+         }
+		 else{
+            String[] read = line.split ("\\s+");
+		    if (read.length > 0 && read[0].startsWith (".")) {
+               try {
+                  commands.do_command (read);
+               }catch (IllegalArgumentException error) {
+                  auxlib.warn (filename, read[0],
+                               "invalid command");
+a22 6
+            }else {
+               for (String word: read){
+			      words.insert(word);
+               }
+               auxlib.printparagraph(words);
+			   out.printf ("%n");
+d24 17
+d44 2
+a47 1
+      linkedqueue <String> words = new linkedqueue <String> ();
+@
+
+
+1.15
+log
+@-
+@
+text
+@d29 1
+a29 1
+               auxlib.printparagraph(queue);
+@
+
+
+1.14
+log
+@-
+@
+text
+@d22 1
+a22 1
+                  auxlib.warn (filename, linenr, read[0],
+@
+
+
+1.13
+log
+@-
+@
+text
+@d12 1
+a12 1
+      while(infile.hasNextLine) {
+@
+
+
+1.12
+log
+@-
+@
+text
+@d30 1
+a30 1
+			   out.printf (%n");
+@
+
+
+1.11
+log
+@-
+@
+text
+@d12 1
+a12 1
+      for (int linenr = 1; infile.hasNextLine(); ++linenr) {
+a14 3
+		 //May delete the STUB part later
+		    out.printf("STUB: %s: %4d: [%s]%n", filename, linenr, ".sp 1");
+			out.printf("%s %n", ".sp1");
+a17 1
+            out.printf ("STUB: %s: %4d: [%s]%n", filename, linenr, line);
+d29 2
+a30 1
+
+@
+
+
+1.10
+log
+@-
+@
+text
+@d49 1
+a49 1
+                  Scanner scan = new Scanner (new File (filename), words);
+@
+
+
+1.9
+log
+@-
+@
+text
+@d50 1
+a50 1
+                  scanfile (filename, scan);
+@
+
+
+1.8
+log
+@-
+@
+text
+@d31 1
+a31 1
+			      words.insert(word)
+@
+
+
+1.7
+log
+@-
+@
+text
+@d10 1
+a10 1
+   static void scanfile (String filename, Scanner infile) {
+d42 1
+a42 1
+         scanfile (STDIN_NAME, new Scanner (in));
+d46 1
+a46 1
+               scanfile (STDIN_NAME, new Scanner (in));
+d49 1
+a49 1
+                  Scanner scan = new Scanner (new File (filename));
+a58 1
+out.printf(words.remove);
+@
+
+
+1.6
+log
+@-
+@
+text
+@d20 1
+a20 1
+            String[] words = line.split ("\\s+");
+d22 1
+a22 1
+		    if (words.length > 0 && words[0].startsWith (".")) {
+d24 1
+a24 1
+                  commands.do_command (words);
+d26 1
+a26 1
+                  auxlib.warn (filename, linenr, words[0],
+d30 4
+a33 2
+               for (String word: words) out.printf ("[%s]", word);
+               out.printf ("%n");
+a40 4
+	  words.insert("Yolo swaggy");
+	  words.insert("Swag");
+	  words.insert("Hashtag");
+	  out.print(words.remove());
+d59 1
+a59 1
+
+@
+
+
+1.5
+log
+@-
+@
+text
+@d39 1
+a39 1
+	  words.insert("Yolo");
+@
+
+
+1.4
+log
+@-
+@
+text
+@d42 1
+a42 1
+	  words.remove();
+@
+
+
+1.3
+log
+@-
+@
+text
+@d39 4
+@
+
+
+1.2
+log
+@-
+@
+text
+@d16 1
+a16 1
+		    out.printf("STUB: %s: %4d: [%s]%n", filename, liner, ".sp 1");
+@
+
+
+1.1
+log
+@-
+@
+text
+@d16 1
+a16 1
+		    out.printf("STUB: %s: %4d: [%s]%n", filename liner, ".sp 1");
+@

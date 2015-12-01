@@ -1,0 +1,255 @@
+head	1.7;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.7
+date	2014.02.18.22.40.26;	author -;	state -;
+branches;
+next	1.6;
+
+1.6
+date	2014.02.18.22.40.06;	author -;	state -;
+branches;
+next	1.5;
+
+1.5
+date	2014.02.18.22.32.30;	author -;	state -;
+branches;
+next	1.4;
+
+1.4
+date	2014.02.18.22.32.13;	author -;	state -;
+branches;
+next	1.3;
+
+1.3
+date	2014.02.18.22.31.44;	author -;	state -;
+branches;
+next	1.2;
+
+1.2
+date	2014.02.18.21.11.19;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2014.02.18.21.04.47;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@-
+@
+text
+@// $Id: treemap.java,v 1.1 2014-01-16 17:44:47-08 - - $
+
+import static java.lang.System.*;
+
+class treemap <key_t extends Comparable <key_t>, value_t> {
+
+   private class node {
+      key_t key;
+      value_t value;
+      node left;
+      node right;
+   }
+   private node root;
+
+   private void debug_dump_rec (node tree, int depth) {
+      String indent = " ";
+	  for(int i = 0; i < depth; i++) {
+	     indent += " ";
+      }
+	  //node right = new node();
+	  //node left = new node();
+	  node right = null;
+	  node left = null;
+	  right = tree.right;
+	  left = tree.left;
+	  if(root != null)
+	     debug_dump_rec(right, depth+=1);
+      out.println(indent + depth + " " + tree.key + " " + tree.value);
+	  if(left != null)
+	     debug_dump_rec(left,depth+=1);
+      
+   }
+
+   private void do_visit_rec (visitor <key_t, value_t> visit_fn,
+                              node tree) {
+      tree = root;
+	  if(tree != null) {
+	     do_visit_rec(visit_fn, tree.right);
+		 visit_fn.visit(tree.key, tree.value);
+		 do_visit_rec(visit_fn, tree.left);
+		 }
+		 else
+		    return;
+   }
+
+   public value_t get (key_t key) {
+      node curr = root;
+	  while(curr != null){
+	     int cmp = key.compareTo(curr.key);
+		 if(cmp == 0) return curr.value;
+		 if(cmp < 0) {
+		    curr = curr.right;
+			continue;
+         }
+		 else{
+		    curr = curr.left;
+			continue;
+			}
+		}
+         return null;		
+   }
+
+   public value_t put (key_t key, value_t value) {
+      if(root == null) {
+	     node newnode = new node();
+		 root = newnode;
+		 root.key = key;
+		 root.value = value;
+		 return null;
+      }
+	  else{
+	     node curr = new node();
+		 node prev = new node();
+		 curr = root;
+		 curr.key = key;
+		 curr.value = value;
+		 while(curr != null){
+		    int cmp = key.compareTo(curr.key);
+			if(cmp == 0) {
+			   root = curr;
+			   return prev.value;
+            }
+			if(cmp < 0){
+			   prev = curr;
+			   curr = curr.right;
+			   continue;
+            }
+			else{
+			   prev = curr;
+			   curr = curr.left;
+			   continue;
+            }
+         }
+		 prev.key = key;
+		 prev.value = value;
+		 root = prev;
+		 out.print(root);
+		 return null;
+      } 
+   }
+
+   public void debug_dump () {
+      debug_dump_rec (root, 0);
+   }
+
+   public void do_visit (visitor <key_t, value_t> visit_fn) {
+      do_visit_rec (visit_fn, root);
+   }
+
+}
+@
+
+
+1.6
+log
+@-
+@
+text
+@d95 1
+a95 1
+		 prev.value - value;
+@
+
+
+1.5
+log
+@-
+@
+text
+@d64 29
+a92 14
+      node curr = new node();
+	  curr = root;
+	  while(curr != null) {
+	     node prev = curr;
+		 int cmp = key.compareTo(curr.key);
+		 if(cmp == 0){
+		    curr.key = key;
+			curr.value = value;
+			return prev.value;
+         }
+         if(cmp < 0){
+		    prev = curr;
+			curr = curr.right;
+			continue;
+d94 6
+a99 11
+		 else{
+		    prev = curr;
+			curr = curr.left;
+			continue;
+         }
+      }
+	  node newnode = new node();
+	  root = newnode;
+	  root.key = key;
+	  root.value = value;
+	  return null;
+@
+
+
+1.4
+log
+@-
+@
+text
+@d22 2
+a23 2
+	  right = null;
+	  left = null;
+@
+
+
+1.3
+log
+@-
+@
+text
+@d22 2
+@
+
+
+1.2
+log
+@-
+@
+text
+@d20 2
+a21 2
+	  node right = new node();
+	  node left = new node();
+@
+
+
+1.1
+log
+@-
+@
+text
+@d48 1
+a48 1
+		 if(cmp == 0) return curr.right;
+@

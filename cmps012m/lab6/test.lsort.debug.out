@@ -1,0 +1,15 @@
+You have reached the End of file
+&head= 0x7fff34e6e238
+head= 0x20841c0
+0x20841c0 -> struct node {item= !@#$%^&*()_+| and special characters are first
+, link= 0x20842e0}0x20842e0 -> struct node {item= $Id: data.lsort.good.in,v 1.1 2012-10-30 17:09:23-07 - - $
+, link= 0x2084110}0x2084110 -> struct node {item= (i.e., not in alphabetic order)
+, link= 0x20840d0}0x20840d0 -> struct node {item= IN LEXICOGRAPHIC ORDER
+, link= 0x2084160}0x2084160 -> struct node {item= SO THAT UPPER LINES COME BEFORE LOWER LINES
+, link= 0x2084220}0x2084220 -> struct node {item= [except for brackets]
+, link= 0x2084050}0x2084050 -> struct node {item= of some data
+, link= 0x20842a0}0x20842a0 -> struct node {item= or just run sort
+, link= 0x2084260}0x2084260 -> struct node {item= see an ASCII table
+, link= 0x2084090}0x2084090 -> struct node {item= strings should sort
+, link= 0x2084010}0x2084010 -> struct node {item= this is a test
+, link= (nil)}NULL= (nil)

@@ -1,0 +1,7 @@
+#!/bin/bash
+# $Id: mk.build,v 1.1 2013-02-06 12:58:22-08 - - $
+export PATH=$PATH:/afs/cats.ucsc.edu/courses/cmps012b-wm/bin
+checksource mk cmatch.c 2>&1 |& tee checksource.log
+partnercheck 2>&1 |& tee partnercheck.log
+chmod +x mk
+./mk 2>&1 | tee mk.log

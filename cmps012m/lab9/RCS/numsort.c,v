@@ -1,0 +1,258 @@
+head	1.12;
+access;
+symbols;
+locks;
+comment	@ * @;
+
+
+1.12
+date	2014.03.19.17.37.47;	author -;	state -;
+branches;
+next	1.11;
+
+1.11
+date	2014.03.10.19.05.13;	author -;	state -;
+branches;
+next	1.10;
+
+1.10
+date	2014.03.10.18.52.48;	author -;	state -;
+branches;
+next	1.9;
+
+1.9
+date	2014.03.10.18.35.48;	author -;	state -;
+branches;
+next	1.8;
+
+1.8
+date	2014.03.10.18.11.45;	author -;	state -;
+branches;
+next	1.7;
+
+1.7
+date	2014.03.10.18.11.03;	author -;	state -;
+branches;
+next	1.6;
+
+1.6
+date	2014.03.10.18.06.31;	author -;	state -;
+branches;
+next	1.5;
+
+1.5
+date	2014.03.10.07.34.13;	author -;	state -;
+branches;
+next	1.4;
+
+1.4
+date	2014.03.10.07.33.43;	author -;	state -;
+branches;
+next	1.3;
+
+1.3
+date	2014.03.10.07.28.54;	author -;	state -;
+branches;
+next	1.2;
+
+1.2
+date	2014.03.10.07.15.05;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2014.03.10.07.14.55;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.12
+log
+@-
+@
+text
+@//Antony Robbins androbbi@@ucsc.edu
+//Brandon Gomez brlgomez@@ucsc.edu
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+
+#include "inssort.h"
+void print (double *a, int size) {
+   for(int i = 0; i < size; i++) {
+      printf("%20.15g\n", a[i]);
+   }
+}
+
+int dbcmp (const void *this, const void *that) {
+   double *thisint = (double*) this;
+   double *thatint = (double*) that;
+   return (*thisint > *thatint) - (*thisint < *thatint);
+   }
+
+int main (void) {
+   double array[1000];
+   double num = 0;
+   int count = 0;
+   for(;;){
+      int in = scanf("%lg", &num);
+      if(in != 1 || in == EOF || count > 1000) break;
+     else{
+        array[count] = num;
+       count++;
+      }
+   }
+   inssort (array, count, sizeof *array, dbcmp);
+   //qsort(array, count, sizeof *array, dbcmp);
+   print(array, count);
+   return EXIT_SUCCESS;
+}
+@
+
+
+1.11
+log
+@-
+@
+text
+@d1 2
+d27 3
+a29 3
+	  else{
+	     array[count] = num;
+		 count++;
+d36 1
+a36 1
+}@
+
+
+1.10
+log
+@-
+@
+text
+@d5 1
+a5 1
+//#include "inssort.h"
+d30 2
+a31 2
+   //inssort (array, count, sizeof *array, dbcmp);
+   qsort(array, count, sizeof *array, dbcmp);
+@
+
+
+1.9
+log
+@-
+@
+text
+@d24 1
+a24 1
+      if(in != 1 || in == EOF || count == 1000) break;
+@
+
+
+1.8
+log
+@-
+@
+text
+@d5 2
+a6 2
+#include "inssort.h"
+void print (double *array, int size) {
+d8 1
+a8 1
+      printf("%20.15g\n", array[i]);
+d30 2
+a31 1
+   inssort (array, count, sizeof *array, dbcmp);
+@
+
+
+1.7
+log
+@-
+@
+text
+@d6 1
+a6 1
+void print (int *array, int size) {
+@
+
+
+1.6
+log
+@-
+@
+text
+@d6 1
+a6 1
+void print (double a[], int size) {
+d8 1
+a8 1
+      printf("%20.15g\n", a[i]);
+@
+
+
+1.5
+log
+@-
+@
+text
+@d12 1
+a12 1
+int cmp (const void *this, const void *that) {
+d30 1
+a30 1
+   inssort (array, count, sizeof array, &cmp);
+@
+
+
+1.4
+log
+@-
+@
+text
+@d30 1
+a30 1
+   inssort (array, count, array, &cmp);
+@
+
+
+1.3
+log
+@-
+@
+text
+@d30 1
+a30 1
+   inssort (array, count, sizeof(double), &cmp);
+@
+
+
+1.2
+log
+@-
+@
+text
+@d18 1
+a18 2
+int main (int argc, char **argv) {
+   argc++; argv++;
+@
+
+
+1.1
+log
+@-
+@
+text
+@d25 1
+a25 1
+      if(in != 1 || in = EOF || count == 1000) break;
+@
